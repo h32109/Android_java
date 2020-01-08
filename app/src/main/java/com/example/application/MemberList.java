@@ -43,22 +43,23 @@ public class MemberList extends AppCompatActivity {
         memberList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> p, View v, int i, long l) {
+                final Main.Member member = (Main.Member)memberList.getItemAtPosition(i);
                 Intent intent = new Intent(_this, MemberDetail.class);
-                intent.putExtra("seq", (memberList.getItemIdAtPosition(i)+1)+"");
+                intent.putExtra("seq", member.seq+"");
                 startActivity(intent);
             }
         });
         memberList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> p, View v, int i, long l) {
-                final String seq = (memberList.getItemIdAtPosition(i)+1)+"";
+                final Main.Member member = (Main.Member)memberList.getItemAtPosition(i);
                 new AlertDialog.Builder(_this)
                         .setTitle("삭제")
                         .setMessage("삭제하시겠습니까?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MemberDelete memberDelete = new MemberDelete(_this);
-                                memberDelete.seq = seq;
+                                memberDelete.seq = String.valueOf(member.seq);
                                 memberDelete.run();
                                 startActivity(new Intent(_this, MemberList.class));
                             }
